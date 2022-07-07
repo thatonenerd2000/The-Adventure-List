@@ -1,42 +1,22 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const Stack = createNativeStackNavigator();
 
-//STYLE IMPORT
-import style from "./style";
+// Screens
+import Landing from './views/Landing';
+import Travel from './views/Travel';
 
-//COMPONENT IMPORT
-import Card from './components/card';
-
-const App: () => Node = () => {
-  return (
-    <>
-      <View id="landing" style={style.landing}>
-        <ScrollView style={{width:"100%"}}>
-          <Card name="Travel" image={require('./media/travelCard.jpg')}/>
-          <Card name="Food" image={require('./media/foodCard.jpeg')}/>
-          <Card name="Activity" image={require('./media/activityCard.jpg')}/>
-          <Card name="Whats next?" image={require('./media/addCard.jpg')}/>
-        </ScrollView>
-      </View>
-    </>
-  );
+const App = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Landing" component={Landing} options={{headerShown: false}}/>
+                <Stack.Screen name="Travel" component={Travel} options={{headerShown: false}}/>
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 };
 
-export default App;
+export default App

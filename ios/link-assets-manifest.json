@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/Arima.ttf",
+      "sha1": "b495ed4908b675e91efd6a981eb70b56e3d53548"
+    },
+    {
       "path": "assets/fonts/Pacifico.ttf",
       "sha1": "baca1fca7fe74b61cb33aa0da48ec1a3a77bcf49"
     }
