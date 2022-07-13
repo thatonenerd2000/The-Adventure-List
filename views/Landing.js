@@ -57,7 +57,7 @@ const Landing: () => Node = ({navigation}) => {
         </Animated.View>
       </ScrollView>
       <TouchableOpacity style={style.addIcon}>
-        <MaterialIcons name="add-circle" size={80} style={{color:"white"}}></MaterialIcons>
+        <MaterialIcons name="add-circle" size={70} style={{color:"white"}}></MaterialIcons>
       </TouchableOpacity>
     </>
   );

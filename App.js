@@ -8,12 +8,31 @@ const Stack = createNativeStackNavigator();
 import Landing from './views/Landing';
 import Travel from './views/Travel';
 
+//ICON IMPORT
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 const App = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="Landing" component={Landing} options={{headerShown: false}}/>
-                <Stack.Screen name="Travel" component={Travel} options={{headerShown: false}}/>
+                <Stack.Screen name="Home" component={Landing} options={{
+                    headerShown:true,
+                    headerTitle:"The Adventure Life",
+                    headerStyle:{
+                        backgroundColor:"#1D1C1A",
+                    },
+                    headerTitleStyle:{
+                        fontFamily:"Pacifico",
+                        color:"white",
+                    }
+                    }}/>
+                <Stack.Screen name="Travel" component={Travel} options={{
+                    headerShown:true,
+                    headerTitle:"",
+                    headerStyle:{
+                        backgroundColor:"#1D1C1A",
+                    }
+                    }}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

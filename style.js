@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     addIcon:{
         position:"absolute",
-        bottom:0,
+        bottom:10,
         left:'80%'
     }
 });
