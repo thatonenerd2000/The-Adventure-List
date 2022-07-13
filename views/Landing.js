@@ -18,7 +18,8 @@ import {
   View,
   Animated,
   Easing,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 
 //STYLE IMPORT
@@ -66,6 +67,7 @@ const Landing: () => Node = ({navigation}) => {
 const styles = StyleSheet.create({
   landing:{
       flexDirection: "column",
+      paddingTop: Platform.OS === 'ios' ? 50 : 0,
       alignItems: 'center',
       backgroundColor: '#1D1C1A',
       minHeight: "100%",

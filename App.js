@@ -15,17 +15,7 @@ const App = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="Home" component={Landing} options={{
-                    headerShown:true,
-                    headerTitle:"The Adventure Life",
-                    headerStyle:{
-                        backgroundColor:"#1D1C1A",
-                    },
-                    headerTitleStyle:{
-                        fontFamily:"Pacifico",
-                        color:"white",
-                    }
-                    }}/>
+                <Stack.Screen name="Home" component={Landing} options={{headerShown:false,}}/>
                 <Stack.Screen name="Travel" component={Travel} options={{
                     headerShown:true,
                     headerTitle:"",

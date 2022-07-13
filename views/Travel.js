@@ -38,7 +38,7 @@ const Travel: () => Node = (props) => {
                     <ListElement locationName="greece" locationImage={require('../media/greeceList.jpg')} completed={false}/>
                 </ScrollView>
                 <TouchableOpacity style={style.addIcon}>
-                    <MaterialIcons name="add-circle" size={80} style={{color:"white"}}></MaterialIcons>
+                    <MaterialIcons name="add-circle" size={70} style={{color:"white"}}></MaterialIcons>
                 </TouchableOpacity>
             </View>
         </>
