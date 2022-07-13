@@ -22,6 +22,7 @@ import {
 
 //STYLE IMPORT
 import style from "../style";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 //COMPONENT IMPORT
 import Card from '../components/card';
@@ -51,6 +52,7 @@ const Landing: () => Node = ({navigation}) => {
             <Card name="Travel" image={require('../media/travelCard.jpg')} onPress={()=>{navigation.navigate('Travel')}}/>
             <Card name="Food" image={require('../media/foodCard.jpeg')}/>
             <Card name="Activity" image={require('../media/activityCard.jpg')}/>
+            <MaterialIcons name="menu" size={30} style={{color:"white"}}></MaterialIcons>
           </Animated.View>
         </ScrollView>
       </View>
