@@ -20,6 +20,9 @@ import {
 //STYLE IMPORT
 import style from "../style";
 
+//ICON IMPORT
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 //COMPONENT IMPORT
 import ListElement from '../components/ListElement';
 
@@ -34,6 +37,9 @@ const Travel: () => Node = (props) => {
                     <ListElement locationName="egypt" locationImage={require('../media/egyptList.jpg')} completed={false}/>
                     <ListElement locationName="greece" locationImage={require('../media/greeceList.jpg')} completed={false}/>
                 </ScrollView>
+                <TouchableOpacity style={style.addIcon}>
+                    <MaterialIcons name="add-circle" size={80} style={{color:"white"}}></MaterialIcons>
+                </TouchableOpacity>
             </View>
         </>
     )

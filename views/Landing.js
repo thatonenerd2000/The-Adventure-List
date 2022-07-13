@@ -17,11 +17,14 @@ import {
   useColorScheme,
   View,
   Animated,
-  Easing
+  Easing,
+  TouchableOpacity
 } from 'react-native';
 
 //STYLE IMPORT
-import style from "../style";
+import style from "../style"; 
+
+//ICON IMPORT
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 //COMPONENT IMPORT
@@ -44,29 +47,28 @@ const Landing: () => Node = ({navigation}) => {
   
   return (
     <>
-      <View style={styles.landing}>
-        <ScrollView style={{width:"100%"}}>
-          <Animated.View style={{
-            left: fadeLeft,
-          }}>
-            <Card name="Travel" image={require('../media/travelCard.jpg')} onPress={()=>{navigation.navigate('Travel')}}/>
-            <Card name="Food" image={require('../media/foodCard.jpeg')}/>
-            <Card name="Activity" image={require('../media/activityCard.jpg')}/>
-            <MaterialIcons name="menu" size={30} style={{color:"white"}}></MaterialIcons>
-          </Animated.View>
-        </ScrollView>
-      </View>
+      <ScrollView contentContainerStyle={styles.landing}>
+        <Animated.View style={{
+          left: fadeLeft,
+        }}>
+          <Card name="Travel" image={require('../media/travelCard.jpg')} onPress={()=>{navigation.navigate('Travel')}}/>
+          <Card name="Food" image={require('../media/foodCard.jpeg')}/>
+          <Card name="Activity" image={require('../media/activityCard.jpg')}/>
+        </Animated.View>
+      </ScrollView>
+      <TouchableOpacity style={style.addIcon}>
+        <MaterialIcons name="add-circle" size={80} style={{color:"white"}}></MaterialIcons>
+      </TouchableOpacity>
     </>
   );
 };
 
 const styles = StyleSheet.create({
   landing:{
-      flex: 1,
       flexDirection: "column",
-      paddingTop: 50,
       alignItems: 'center',
       backgroundColor: '#1D1C1A',
+      minHeight: "100%",
   }
 });
 
