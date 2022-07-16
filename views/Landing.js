@@ -123,7 +123,7 @@ const Landing: () => Node = ({navigation}) => {
                 style={{
                   display:
                     (newAdventureText && newAdventureImage) !== ''
-                      ? 'block'
+                      ? 'flex'
                       : 'none',
                 }}></Button>
               <Button
