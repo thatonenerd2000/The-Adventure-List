@@ -26,6 +26,10 @@ import {
 
 import ImagePicker from 'react-native-image-crop-picker';
 
+//FIREBASE
+import database from '@react-native-firebase/database';
+import storage from '@react-native-firebase/storage';
+
 //STYLE IMPORT
 import style from '../style';
 
@@ -37,13 +41,18 @@ import Card from '../components/card';
 import Button from '../components/Button';
 
 const Landing: () => Node = ({navigation}) => {
+  //Firebase
+  const dbRef = database().ref('adventure_lists/').push()
+  const storageRef = storage()
+  const storageKey = dbRef.key
+
   //Modal States
   const [modalVisible, setModalVisible] = useState(false);
   const [newAdventureText, setNewAdventureText] = useState(
     'Start a new adventure',
   );
   newAdventureText === '' ? setNewAdventureText('Start a new adventure') : null;
-  const [newAdventureImage, setNewAdventureImage] = useState('');
+  const [newAdventureImage, setNewAdventureImage] = useState('not_available');
 
   //Animations
   const fadeLeft = useRef(new Animated.Value(100)).current;
@@ -96,15 +105,20 @@ const Landing: () => Node = ({navigation}) => {
               <Card
                 name={newAdventureText}
                 onPress={() => {
-                  ImagePicker.openPicker({
-                    width: 300,
-                    height: 400,
-                    cropping: true,
-                  }).then(image => {
-                    setNewAdventureImage(image.path);
-                  });
+                  if(newAdventureImage === 'not_available'){
+                    ImagePicker.openPicker({
+                      width: 300,
+                      height: 400,
+                      cropping: true,
+                    }).then(async image => {
+                      setNewAdventureImage(image.path)
+                    });
+                  }
+                  else{
+                    null
+                  }
                 }}
-                image={newAdventureImage}
+                image={{uri: newAdventureImage}}
               />
               <TextInput
                 style={{
@@ -122,15 +136,29 @@ const Landing: () => Node = ({navigation}) => {
                 text="Create"
                 style={{
                   display:
-                    (newAdventureText && newAdventureImage) !== ''
+                    (newAdventureText !== 'Start a new adventure' && newAdventureImage !== '')
                       ? 'flex'
                       : 'none',
+                }}
+                onPress={async ()=>{
+                  //Upload the image to firebase and get an url
+                  await storageRef.ref('adventure_lists/'+storageKey+'/'+'list_picture').putFile(newAdventureImage)
+                  const url = await storageRef.ref('adventure_lists/'+storageKey+'/'+'list_picture').getDownloadURL()
+                  //TODO: Have to delete the image if someone selects an image but cancels the modal
+                  dbRef.set({
+                    name: newAdventureText,
+                    image_url: url
+                  })
+                  setNewAdventureText('Start a new adventure');
+                  setNewAdventureImage('not_available');
+                  setModalVisible(false)
                 }}></Button>
               <Button
                 color="#800020"
                 text="Cancel"
                 onPress={() => {
                   setModalVisible(false);
+                  newAdventureImage !== 'not_available' ? storageRef.ref('adventure_lists/'+storageKey).delete().catch(err => console.warn(err)) : null;
                 }}></Button>
             </View>
           </View>
