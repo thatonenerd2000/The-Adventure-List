@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {Node} from 'react';
 import {
     SafeAreaView,
@@ -15,6 +15,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
+    Modal,
 } from 'react-native';
 
 //STYLE IMPORT
