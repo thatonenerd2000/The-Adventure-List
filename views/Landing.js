@@ -21,7 +21,10 @@ import {
   TouchableOpacity,
   Platform,
   Modal,
+  TextInput,
 } from 'react-native';
+
+import ImagePicker from 'react-native-image-crop-picker';
 
 //STYLE IMPORT
 import style from '../style';
@@ -34,7 +37,13 @@ import Card from '../components/card';
 import Button from '../components/Button';
 
 const Landing: () => Node = ({navigation}) => {
+  //Modal States
   const [modalVisible, setModalVisible] = useState(false);
+  const [newAdventureText, setNewAdventureText] = useState(
+    'Start a new adventure',
+  );
+  newAdventureText === '' ? setNewAdventureText('Start a new adventure') : null;
+  const [newAdventureImage, setNewAdventureImage] = useState('');
 
   //Animations
   const fadeLeft = useRef(new Animated.Value(100)).current;
@@ -84,6 +93,39 @@ const Landing: () => Node = ({navigation}) => {
           <View style={style.overlay}></View>
           <View style={style.centerView}>
             <View style={style.ModalView}>
+              <Card
+                name={newAdventureText}
+                onPress={() => {
+                  ImagePicker.openPicker({
+                    width: 300,
+                    height: 400,
+                    cropping: true,
+                  }).then(image => {
+                    setNewAdventureImage(image.path);
+                  });
+                }}
+                image={newAdventureImage}
+              />
+              <TextInput
+                style={{
+                  padding: 10,
+                  margin: 5,
+                  backgroundColor: 'grey',
+                  borderRadius: 10,
+                }}
+                placeholder="Name your next Adventure List"
+                placeholderTextColor="white"
+                onChangeText={setNewAdventureText}
+              />
+              <Button
+                color="#50C878"
+                text="Create"
+                style={{
+                  display:
+                    (newAdventureText && newAdventureImage) !== ''
+                      ? 'block'
+                      : 'none',
+                }}></Button>
               <Button
                 color="#800020"
                 text="Cancel"

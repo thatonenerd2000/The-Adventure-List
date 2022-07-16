@@ -13,7 +13,12 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 const Button = props => {
   return (
     <TouchableOpacity style={{width: '90%'}} onPress={props.onPress}>
-      <View style={[styles.buttonStyle, {backgroundColor: props.color}]}>
+      <View
+        style={[
+          props.style,
+          styles.buttonStyle,
+          {backgroundColor: props.color},
+        ]}>
         <Text style={{color: 'white', fontWeight: 'bold'}}>{props.text}</Text>
       </View>
     </TouchableOpacity>
@@ -25,6 +30,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    margin: 2,
   },
 });
 
