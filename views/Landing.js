@@ -42,9 +42,9 @@ import Button from '../components/Button';
 
 const Landing: () => Node = ({navigation}) => {
   //Firebase
-  const dbRef = database().ref('adventure_lists/').push()
-  const storageRef = storage()
-  const storageKey = dbRef.key
+  const dbRef = database().ref('adventure_lists/').push();
+  const storageRef = storage();
+  const storageKey = dbRef.key;
 
   //Modal States
   const [modalVisible, setModalVisible] = useState(false);
@@ -105,17 +105,16 @@ const Landing: () => Node = ({navigation}) => {
               <Card
                 name={newAdventureText}
                 onPress={() => {
-                  if(newAdventureImage === 'not_available'){
+                  if (newAdventureImage === 'not_available') {
                     ImagePicker.openPicker({
                       width: 300,
                       height: 400,
                       cropping: true,
                     }).then(async image => {
-                      setNewAdventureImage(image.path)
+                      setNewAdventureImage(image.path);
                     });
-                  }
-                  else{
-                    null
+                  } else {
+                    null;
                   }
                 }}
                 image={{uri: newAdventureImage}}
@@ -136,29 +135,39 @@ const Landing: () => Node = ({navigation}) => {
                 text="Create"
                 style={{
                   display:
-                    (newAdventureText !== 'Start a new adventure' && newAdventureImage !== '')
+                    newAdventureText !== 'Start a new adventure' &&
+                    newAdventureImage !== ''
                       ? 'flex'
                       : 'none',
                 }}
-                onPress={async ()=>{
+                onPress={async () => {
                   //Upload the image to firebase and get an url
-                  await storageRef.ref('adventure_lists/'+storageKey+'/'+'list_picture').putFile(newAdventureImage)
-                  const url = await storageRef.ref('adventure_lists/'+storageKey+'/'+'list_picture').getDownloadURL()
+                  await storageRef
+                    .ref('adventure_lists/' + storageKey + '/' + 'list_picture')
+                    .putFile(newAdventureImage);
+                  const url = await storageRef
+                    .ref('adventure_lists/' + storageKey + '/' + 'list_picture')
+                    .getDownloadURL();
                   //TODO: Have to delete the image if someone selects an image but cancels the modal
                   dbRef.set({
                     name: newAdventureText,
-                    image_url: url
-                  })
+                    image_url: url,
+                  });
                   setNewAdventureText('Start a new adventure');
                   setNewAdventureImage('not_available');
-                  setModalVisible(false)
+                  setModalVisible(false);
                 }}></Button>
               <Button
                 color="#800020"
                 text="Cancel"
                 onPress={() => {
                   setModalVisible(false);
-                  newAdventureImage !== 'not_available' ? storageRef.ref('adventure_lists/'+storageKey).delete().catch(err => console.warn(err)) : null;
+                  newAdventureImage !== 'not_available'
+                    ? storageRef
+                        .ref('adventure_lists/' + storageKey)
+                        .delete()
+                        .catch(err => console.warn(err))
+                    : null;
                 }}></Button>
             </View>
           </View>
