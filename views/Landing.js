@@ -54,6 +54,10 @@ const Landing: () => Node = ({navigation}) => {
   newAdventureText === '' ? setNewAdventureText('Start a new adventure') : null;
   const [newAdventureImage, setNewAdventureImage] = useState('not_available');
 
+  //Data
+  const [adventures, setAdventures] = useState({});
+  const [adventureList, setAdventureList] = useState([]);
+
   //Animations
   const fadeLeft = useRef(new Animated.Value(100)).current;
 
@@ -65,6 +69,17 @@ const Landing: () => Node = ({navigation}) => {
       duration: 500,
       useNativeDriver: true,
     }).start();
+
+    // Get Adventures
+    async function getData() {
+      database()
+        .ref('/adventure_lists/')
+        .on('value', snap => {
+          setAdventures(snap.val());
+          setAdventureList(Object.keys(snap.val()));
+        });
+    }
+    getData();
   }, [fadeLeft]);
 
   return (
@@ -74,15 +89,22 @@ const Landing: () => Node = ({navigation}) => {
           style={{
             transform: [{translateX: fadeLeft}],
           }}>
+          {adventureList.map(adventure => {
+            return (
+              <Card
+                key={adventure}
+                name={adventures[adventure].name}
+                image={{uri: adventures[adventure].image_url}}
+              />
+            );
+          })}
           <Card
-            name="Travel"
-            image={require('../media/travelCard.jpg')}
+            name="Test"
+            image={require('../media/greeceList.jpg')}
             onPress={() => {
               navigation.navigate('Travel');
             }}
           />
-          <Card name="Food" image={require('../media/foodCard.jpeg')} />
-          <Card name="Activity" image={require('../media/activityCard.jpg')} />
         </Animated.View>
       </ScrollView>
 
@@ -107,8 +129,8 @@ const Landing: () => Node = ({navigation}) => {
                 onPress={() => {
                   if (newAdventureImage === 'not_available') {
                     ImagePicker.openPicker({
-                      width: 300,
-                      height: 400,
+                      width: 1280,
+                      height: 720,
                       cropping: true,
                     }).then(async image => {
                       setNewAdventureImage(image.path);
@@ -181,6 +203,7 @@ const styles = StyleSheet.create({
   landing: {
     flexDirection: 'column',
     paddingTop: Platform.OS === 'ios' ? 50 : 0,
+    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
     alignItems: 'center',
     backgroundColor: '#1D1C1A',
     minHeight: '100%',
