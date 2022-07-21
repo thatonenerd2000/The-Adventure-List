@@ -65,3 +65,5 @@ buck-out/
 
 #Ignore the firebase services file
 google-services.json
+
+ios/GoogleService-Info.plist
