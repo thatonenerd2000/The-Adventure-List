@@ -176,7 +176,7 @@ const Travel: () => Node = props => {
       <>
         <View style={styles.MainView}>
           <Text style={{color: 'white'}}>
-            It's empty here, try adding some adventures!
+            It's empty in here, try adding some adventures!
           </Text>
           <TouchableOpacity
             style={style.addIcon}

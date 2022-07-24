@@ -194,84 +194,89 @@ const Landing: () => Node = ({navigation}) => {
   } else {
     return (
       <>
-        <TouchableOpacity style={style.addIcon}>
-          <MaterialIcons
-            name="add-circle"
-            size={70}
-            style={{color: 'white'}}
-            onPress={() => {
-              setModalVisible(true);
-            }}></MaterialIcons>
-        </TouchableOpacity>
+        <View style={styles.MainView}>
+          <Text style={{color: 'white'}}>
+            It's empty in here, try adding some adventures!
+          </Text>
+          <TouchableOpacity style={style.addIcon}>
+            <MaterialIcons
+              name="add-circle"
+              size={70}
+              style={{color: 'white'}}
+              onPress={() => {
+                setModalVisible(true);
+              }}></MaterialIcons>
+          </TouchableOpacity>
 
-        {/* //Modal */}
-        <ModalView visible={modalVisible}>
-          <Card
-            name={newAdventureText}
-            onPress={() => {
-              if (newAdventureImage === 'not_available') {
-                ImagePicker.openPicker({
-                  width: 1280,
-                  height: 720,
-                  cropping: true,
-                }).then(async image => {
-                  setNewAdventureImage(image.path);
+          {/* //Modal */}
+          <ModalView visible={modalVisible}>
+            <Card
+              name={newAdventureText}
+              onPress={() => {
+                if (newAdventureImage === 'not_available') {
+                  ImagePicker.openPicker({
+                    width: 1280,
+                    height: 720,
+                    cropping: true,
+                  }).then(async image => {
+                    setNewAdventureImage(image.path);
+                  });
+                } else {
+                  null;
+                }
+              }}
+              image={{uri: newAdventureImage}}
+            />
+            <TextInput
+              style={{
+                padding: 10,
+                margin: 5,
+                backgroundColor: 'grey',
+                borderRadius: 10,
+              }}
+              placeholder="Name your next Adventure List"
+              placeholderTextColor="white"
+              onChangeText={setNewAdventureText}
+            />
+            <Button
+              color="#50C878"
+              text="Create"
+              style={{
+                display:
+                  newAdventureText !== 'Start a new adventure' &&
+                  newAdventureImage !== ''
+                    ? 'flex'
+                    : 'none',
+              }}
+              onPress={async () => {
+                //Upload the image to firebase and get an url
+                await storageRef
+                  .ref('adventure_lists/' + storageKey + '/' + 'list_picture')
+                  .putFile(newAdventureImage);
+                const url = await storageRef
+                  .ref('adventure_lists/' + storageKey + '/' + 'list_picture')
+                  .getDownloadURL();
+                //TODO: Have to delete the image if someone selects an image but cancels the modal
+                dbRef.set({
+                  name: newAdventureText,
+                  image_url: url,
                 });
-              } else {
-                null;
-              }
-            }}
-            image={{uri: newAdventureImage}}
-          />
-          <TextInput
-            style={{
-              padding: 10,
-              margin: 5,
-              backgroundColor: 'grey',
-              borderRadius: 10,
-            }}
-            placeholder="Name your next Adventure List"
-            placeholderTextColor="white"
-            onChangeText={setNewAdventureText}
-          />
-          <Button
-            color="#50C878"
-            text="Create"
-            style={{
-              display:
-                newAdventureText !== 'Start a new adventure' &&
-                newAdventureImage !== ''
-                  ? 'flex'
-                  : 'none',
-            }}
-            onPress={async () => {
-              //Upload the image to firebase and get an url
-              await storageRef
-                .ref('adventure_lists/' + storageKey + '/' + 'list_picture')
-                .putFile(newAdventureImage);
-              const url = await storageRef
-                .ref('adventure_lists/' + storageKey + '/' + 'list_picture')
-                .getDownloadURL();
-              //TODO: Have to delete the image if someone selects an image but cancels the modal
-              dbRef.set({
-                name: newAdventureText,
-                image_url: url,
-              });
-              setNewAdventureText('Start a new adventure');
-              setNewAdventureImage('not_available');
-              setModalVisible(false);
-            }}></Button>
-          <Button
-            color="#800020"
-            text="Cancel"
-            onPress={() => {
-              setNewAdventureImage('not_available');
-              setNewAdventureText('Start a new adventure');
-              setModalVisible(false);
-            }}>
-            Cancel
-          </Button>
-        </ModalView>
+                setNewAdventureText('Start a new adventure');
+                setNewAdventureImage('not_available');
+                setModalVisible(false);
+              }}></Button>
+            <Button
+              color="#800020"
+              text="Cancel"
+              onPress={() => {
+                setNewAdventureImage('not_available');
+                setNewAdventureText('Start a new adventure');
+                setModalVisible(false);
+              }}>
+              Cancel
+            </Button>
+          </ModalView>
+        </View>
       </>
     );
   }
