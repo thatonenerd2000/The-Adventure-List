@@ -61,9 +61,9 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
-
+/ios/GoogleService-Info.plist
 
 #Ignore the firebase services file
-google-services.json
+GoogleService-Info.plist
 
 ios/GoogleService-Info.plist
