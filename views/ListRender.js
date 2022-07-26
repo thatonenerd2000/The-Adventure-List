@@ -42,11 +42,11 @@ const Travel: () => Node = props => {
   const [newListText, setNewListText] = useState('Start a new adventure');
   newListText === '' ? setNewListText('Start a new adventure') : null;
   const [newAdventureImage, setNewAdventureImage] = useState('not_available');
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
 
   //Firebase
-  const dbRef = database()
-    .ref(`adventure_lists/${global.selectedList}/lists`)
-    .push();
+  const ref = `adventure_lists/${global.selectedList}/lists`;
+  const dbRef = database().ref(ref).push();
   const storageRef = storage();
   const storageKey = dbRef.key;
 
@@ -83,10 +83,34 @@ const Travel: () => Node = props => {
                   key={list}
                   locationName={lists[list].name}
                   locationImage={{uri: lists[list].image_url}}
+                  onPress={() => {
+                    setUpdateModalVisible(true);
+                    global.updateListKey = list;
+                  }}
+                  completed={lists[list].status}
                 />
               );
             })}
           </ScrollView>
+          {/* Modify List Status */}
+          <ModalView visible={updateModalVisible}>
+            <Button
+              color="#50C878"
+              text="Mark Adventure Complete"
+              onPress={() => {
+                database().ref(`${ref}/${global.updateListKey}/`).update({
+                  status: true,
+                });
+                setUpdateModalVisible(false);
+              }}></Button>
+            <Button
+              color="#800020"
+              text="Cancel"
+              onPress={() => {
+                setUpdateModalVisible(false);
+              }}></Button>
+          </ModalView>
+
           <TouchableOpacity
             style={style.addIcon}
             onPress={() => {
@@ -97,7 +121,7 @@ const Travel: () => Node = props => {
               size={70}
               style={{color: 'white'}}></MaterialIcons>
           </TouchableOpacity>
-          {/* Modal */}
+          {/* Add List Modal */}
           <ModalView visible={modalVisible}>
             <ListElement
               locationName={newListText}
@@ -152,6 +176,7 @@ const Travel: () => Node = props => {
                 dbRef.set({
                   name: newListText,
                   image_url: url,
+                  status: false,
                 });
                 setNewListText('Start a new adventure');
                 setNewAdventureImage('not_available');
@@ -164,9 +189,7 @@ const Travel: () => Node = props => {
                 setNewListText('Start a new adventure');
                 setNewAdventureImage('not_available');
                 setModalVisible(false);
-              }}>
-              Cancel
-            </Button>
+              }}></Button>
           </ModalView>
         </View>
       </>
@@ -243,6 +266,7 @@ const Travel: () => Node = props => {
                 dbRef.set({
                   name: newListText,
                   image_url: url,
+                  status: false,
                 });
                 setNewListText('Start a new adventure');
                 setNewAdventureImage('not_available');

@@ -15,6 +15,7 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 
 //STYLE IMPORT
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   bgImage: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.6)',
     height: 200,
     alignItems: 'center',
     justifyContent: 'center',
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 2,
     padding: 10,
-    color: '#013220',
+    color: 'white',
     fontWeight: 'bold',
   },
   inCompleteListText: {
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(128, 0, 32,0.5)',
   },
   CompleteOverlay: {
     position: 'absolute',
@@ -95,11 +96,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(119,221,119,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   exploreText: {
     fontFamily: 'Arima',
-    color: 'black',
+    color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
     margin: 5,
