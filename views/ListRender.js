@@ -78,22 +78,25 @@ const Travel: () => Node = props => {
         <View style={styles.MainView}>
           <ScrollView style={{width: '100%'}}>
             {listKeys.map(list => {
-              return (
-                <ListElement
-                  key={list}
-                  locationName={lists[list].name}
-                  locationImage={{uri: lists[list].image_url}}
-                  onPress={() => {
-                    setUpdateModalVisible(true);
-                    global.updateListKey = list;
-                  }}
-                  completed={lists[list].status}
-                />
-              );
+              if (list !== 'undefined') {
+                return (
+                  <ListElement
+                    key={list}
+                    locationName={lists[list].name}
+                    locationImage={{uri: lists[list].image_url}}
+                    onPress={() => {
+                      setUpdateModalVisible(true);
+                      global.updateListKey = list;
+                    }}
+                    completed={lists[list].status}
+                  />
+                );
+              }
             })}
           </ScrollView>
           {/* Modify List Status */}
           <ModalView visible={updateModalVisible}>
+            {/* Complete Button */}
             <Button
               color="#50C878"
               text="Mark Adventure Complete"
@@ -103,6 +106,25 @@ const Travel: () => Node = props => {
                 });
                 setUpdateModalVisible(false);
               }}></Button>
+            {/* Delete Button */}
+            <Button
+              color="#FF0000"
+              text="Delete Adventure"
+              onPress={() => {
+                const newLists = {...lists};
+                delete newLists[global.updateListKey];
+                setLists(newLists);
+                setListKeys(Object.keys(newLists));
+
+                database().ref(`${ref}/${global.updateListKey}/`).remove();
+                storage()
+                  .ref(
+                    `adventure_lists/${global.selectedList}/list_images/${global.updateListKey}/list_image`,
+                  )
+                  .delete();
+                setUpdateModalVisible(false);
+              }}></Button>
+            {/* Cancel Button */}
             <Button
               color="#800020"
               text="Cancel"

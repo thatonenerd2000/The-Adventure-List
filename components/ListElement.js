@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: 'white',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   inCompleteListText: {
     fontFamily: 'Arima',
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: 'white',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   InCompleteOverlay: {
     position: 'absolute',
